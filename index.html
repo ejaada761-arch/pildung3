@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PILDUN 64 Negara</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#061936;
+    color:white;
+}
+
+header{
+    background:#0866c9;
+    text-align:center;
+    padding:35px 20px;
+}
+
+header h1{
+    margin:0;
+    font-size:42px;
+}
+
+header p{
+    font-size:20px;
+    margin:10px 0 0;
+}
+
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.panel{
+    background:#0d274e;
+    border:2px solid #294d7d;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:25px;
+}
+
+h2{
+    margin-top:0;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:14px 22px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:5px;
+}
+
+.btn-blue{
+    background:#1685ff;
+    color:white;
+}
+
+.btn-green{
+    background:#18c46a;
+    color:white;
+}
+
+.btn-orange{
+    background:#ff725c;
+    color:white;
+}
+
+.btn-gray{
+    background:#526b91;
+    color:white;
+}
+
+button:hover{
+    opacity:.85;
+}
+
+.groups{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.group{
+    background:#102d58;
+    border:2px solid #315986;
+    border-radius:15px;
+    padding:15px;
+}
+
+.group h3{
+    margin:0 0 12px;
+    color:#67dcff;
+}
+
+.team{
+    background:#193b6c;
+    border-radius:8px;
+    padding:10px;
+    margin:7px 0;
+}
+
+.rank{
+    display:inline-block;
+    width:28px;
+    font-weight:bold;
+}
+
+.qualify{
+    color:#52f09b;
+    font-size:13px;
+    margin-left:5px;
+}
+
+.matches{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.match{
+    background:#102d58;
+    border:2px solid #315986;
+    border-radius:15px;
+    padding:20px;
+}
+
+.match h3{
+    margin-top:0;
+    color:#68dfff;
+}
+
+.score{
+    background:#183b6d;
+    border-radius:8px;
+    padding:12px;
+    margin:8px 0;
+}
+
+.win{
+    background:#16bd68;
+    color:white;
+}
+
+.stage-title{
+    font-size:28px;
+    margin-bottom:20px;
+    color:#67dcff;
+}
+
+.hidden{
+    display:none;
+}
+
+.champion{
+    text-align:center;
+    padding:40px;
+    background:#123867;
+    border-radius:20px;
+}
+
+.champion h2{
+    font-size:35px;
+}
+
+@media(max-width:900px){
+    .groups{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .matches{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+    header h1{
+        font-size:32px;
+    }
+
+    .groups{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏆 PILDUN</h1>
+    <p>64 Negara → 16 Grup → 48 Besar → 32 Besar → Final</p>
+</header>
+
+<div class="container">
+
+<div class="panel">
+    <h2>🌍 64 Negara</h2>
+
+    <p>
+        16 grup × 4 negara.
+        Juara 1, juara 2, dan juara 3 dari setiap grup
+        lolos ke <b>48 Besar</b>.
+    </p>
+
+    <button class="btn-blue" onclick="acakNegara()">
+        🎲 Acak 64 Negara
+    </button>
+
+    <button class="btn-green" onclick="mulaiGrup()">
+        ▶ Mulai Fase Grup
+    </button>
+
+    <button class="btn-gray" onclick="resetGame()">
+        ↻ Reset
+    </button>
+</div>
+
+<div id="faseGrup" class="panel">
+
+    <div class="stage-title">
+        🏟️ FASE GRUP
+    </div>
+
+    <div id="groups" class="groups"></div>
+
+    <br>
+
+    <button class="btn-orange" onclick="ke48Besar()">
+        ▶ Masuk ke 48 Besar
+    </button>
+
+</div>
+
+<div id="fase48" class="panel hidden">
+
+    <div class="stage-title">
+        🔥 48 BESAR
+    </div>
+
+    <p>
+        48 negara hasil fase grup.
+        16 tim peringkat ketiga akan memainkan playoff.
+        8 pemenang playoff bergabung dengan 24 tim
+        peringkat 1 dan 2 untuk menjadi <b>32 Besar</b>.
+    </p>
+
+    <div id="playoff48" class="matches"></div>
+
+    <br>
+
+    <button class="btn-green" onclick="ke32Besar()">
+        ▶ Masuk ke 32 Besar
+    </button>
+
+</div>
+
+<div id="fase32" class="panel hidden">
+
+    <div class="stage-title">
+        ⚔️ 32 BESAR
+    </div>
+
+    <div id="matches32" class="matches"></div>
+
+    <br>
+
+    <button class="btn-green" onclick="ke16Besar()">
+        ▶ Masuk ke 16 Besar
+    </button>
+
+</div>
+
+<div id="fase16" class="panel hidden">
+
+    <div class="stage-title">
+        ⚔️ 16 BESAR
+    </div>
+
+    <div id="matches16" class="matches"></div>
+
+    <br>
+
+    <button class="btn-green" onclick="ke8Besar()">
+        ▶ Masuk ke 8 Besar
+    </button>
+
+</div>
+
+<div id="fase8" class="panel hidden">
+
+    <div class="stage-title">
+        🏆 8 BESAR
+    </div>
+
+    <div id="matches8" class="matches"></div>
+
+    <br>
+
+    <button class="btn-green" onclick="keSemifinal()">
+        ▶ Semifinal
+    </button>
+
+</div>
+
+<div id="fase4" class="panel hidden">
+
+    <div class="stage-title">
+        🔥 SEMIFINAL
+    </div>
+
+    <div id="matches4" class="matches"></div>
+
+    <br>
+
+    <button class="btn-orange" onclick="keFinal()">
+        ▶ Lanjut Final
+    </button>
+
+</div>
+
+<div id="fase3" class="panel hidden">
+
+    <div class="stage-title">
+        🥉 PEREBUTAN JUARA 3
+    </div>
+
+    <div id="thirdPlace" class="matches"></div>
+
+</div>
+
+<div id="final" class="panel hidden">
+
+    <div class="stage-title">
+        🏆 FINAL PILDUN
+    </div>
+
+    <div id="finalMatch" class="matches"></div>
+
+    <br>
+
+    <div class="champion">
+        <h2>🏆 JUARA PILDUN</h2>
+        <h1 id="winner">?</h1>
+
+        <p>
+            🥇 Juara 1<br>
+            🥈 Runner-up<br>
+            🥉 Juara 3
+        </p>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+const negara = [
+"Indonesia","Jepang","Korea Selatan","Australia",
+"Arab Saudi","Iran","Qatar","Uzbekistan",
+"Brasil","Argentina","Uruguay","Kolombia",
+"Ekuador","Paraguay","Chile","Peru",
+"Prancis","Jerman","Spanyol","Portugal",
+"Inggris","Italia","Belanda","Belgia",
+"Kroasia","Serbia","Swiss","Turki",
+"Denmark","Swedia","Norwegia","Polandia",
+"Maroko","Mesir","Nigeria","Kamerun",
+"Ghana","Senegal","Tunisia","Aljazair",
+"Amerika Serikat","Meksiko","Kanada","Kosta Rika",
+"Panama","Jamaika","Kuba","Honduras",
+"Bolivia","Venezuela","Paraguay","Ekuador",
+"Ukraina","Austria","Rumania","Skotlandia",
+"Slovakia","Slovenia","Hungaria","Finlandia",
+"Georgia","Irlandia","Islandia","Ceko"
+];
+
+let grup = [];
+let qualified = [];
+let currentTeams = [];
+
+function shuffle(array){
+    return [...array].sort(() => Math.random() - 0.5);
+}
+
+function acakNegara(){
+
+    let list = shuffle(negara);
+
+    grup = [];
+
+    for(let i=0;i<16;i++){
+        grup.push(list.slice(i*4,i*4+4));
+    }
+
+    tampilkanGrup();
+}
+
+function tampilkanGrup(){
+
+    const area = document.getElementById("groups");
+
+    area.innerHTML = "";
+
+    grup.forEach((teams,index)=>{
+
+        let html = `
+        <div class="group">
+            <h3>Grup ${String.fromCharCode(65+index)}</h3>
+        `;
+
+        teams.forEach((team,pos)=>{
+
+            html += `
+            <div class="team">
+                <span class="rank">${pos+1}</span>
+                ${team}
+            </div>
+            `;
+
+        });
+
+        html += `
+        <small class="qualify">
+            Juara 1 • 2 • 3 lolos
+        </small>
+        </div>
+        `;
+
+        area.innerHTML += html;
+    });
+}
+
+function mulaiGrup(){
+
+    if(grup.length===0){
+        acakNegara();
+    }
+
+    alert(
+        "Fase grup dimulai!\n\n" +
+        "Setiap grup berisi 4 negara.\n" +
+        "Juara 1, 2 dan 3 akan lolos ke 48 Besar."
+    );
+}
+
+function ke48Besar(){
+
+    if(grup.length===0){
+        alert("Acak negara dulu!");
+        return;
+    }
+
+    qualified = [];
+
+    grup.forEach(g=>{
+        qualified.push(g[0]);
+        qualified.push(g[1]);
+        qualified.push(g[2]);
+    });
+
+    currentTeams = [...qualified];
+
+    document.getElementById("fase48").classList.remove("hidden");
+
+    buatPlayoff48();
+}
+
+function buatPlayoff48(){
+
+    const area = document.getElementById("playoff48");
+
+    area.innerHTML="";
+
+    let third = [];
+
+    grup.forEach(g=>{
+        third.push(g[2]);
+    });
+
+    for(let i=0;i<8;i++){
+
+        let a = third[i*2];
+        let b = third[i*2+1];
+
+        area.innerHTML += `
+        <div class="match">
+            <h3>Playoff ${i+1}</h3>
+
+            <div class="score">${a}</div>
+            <div class="score">${b}</div>
+
+            <button class="btn-green"
+            onclick="pilihPlayoff(this,'${a}')">
+            ${a} menang
+            </button>
+
+            <button class="btn-green"
+            onclick="pilihPlayoff(this,'${b}')">
+            ${b} menang
+            </button>
+        </div>
+        `;
+    }
+}
+
+function pilihPlayoff(btn,team){
+
+    btn.parentElement.querySelectorAll("button")
+    .forEach(b=>b.disabled=true);
+
+    btn.classList.add("win");
+
+    btn.parentElement.dataset.winner=team;
+}
+
+function ke32Besar(){
+
+    let winners=[];
+
+    document.querySelectorAll("#playoff48 .match")
+    .forEach(m=>{
+        if(m.dataset.winner){
+            winners.push(m.dataset.winner);
+        }
+    });
+
+    if(winners.length<8){
+
+        alert("Tentukan semua pemenang playoff dulu!");
+
+        return;
+    }
+
+    let firstSecond=[];
+
+    grup.forEach(g=>{
+        firstSecond.push(g[0]);
+        firstSecond.push(g[1]);
+    });
+
+    currentTeams=[
+        ...firstSecond,
+        ...winners
+    ];
+
+    document.getElementById("fase32")
+    .classList.remove("hidden");
+
+    buatBabak(currentTeams,"matches32");
+}
+
+function buatBabak(teams,id){
+
+    const area=document.getElementById(id);
+
+    area.innerHTML="";
+
+    for(let i=0;i<teams.length;i+=2){
+
+        let a=teams[i];
+        let b=teams[i+1];
+
+        area.innerHTML+=`
+
+        <div class="match">
+
+            <h3>Pertandingan</h3>
+
+            <div class="score">${a}</div>
+            <div class="score">${b}</div>
+
+            <button class="btn-green"
+            onclick="pilih(this,'${a}')">
+            ${a} menang
+            </button>
+
+            <button class="btn-green"
+            onclick="pilih(this,'${b}')">
+            ${b} menang
+            </button>
+
+        </div>
+
+        `;
+    }
+}
+
+function pilih(btn,team){
+
+    btn.parentElement
+    .querySelectorAll("button")
+    .forEach(b=>b.disabled=true);
+
+    btn.classList.add("win");
+
+    btn.parentElement.dataset.winner=team;
+}
+
+function ambilPemenang(id){
+
+    let result=[];
+
+    document.querySelectorAll("#"+id+" .match")
+    .forEach(m=>{
+
+        if(m.dataset.winner){
+            result.push(m.dataset.winner);
+        }
+
+    });
+
+    return result;
+}
+
+function lanjut(id,nextId){
+
+    let winners=ambilPemenang(id);
+
+    if(winners.length*2 !==
+       document.querySelectorAll("#"+id+" .match").length*2){
+
+        alert("Tentukan semua pemenang dulu!");
+    }
+
+    currentTeams=winners;
+
+    document.getElementById(nextId)
+    .classList.remove("hidden");
+
+    buatBabak(currentTeams,nextId.replace("fase","matches").toLowerCase());
+}
+
+/* BABAK SELANJUTNYA */
+
+function ke16Besar(){
+
+    let winners=ambilPemenang("matches32");
+
+    if(winners.length!==16){
+        alert("Pilih semua pemenang 32 Besar dulu!");
+        return;
+    }
+
+    currentTeams=winners;
+
+    document.getElementById("fase16").classList.remove("hidden");
+
+    buatBabak(currentTeams,"matches16");
+}
+
+function ke8Besar(){
+
+    let winners=ambilPemenang("matches16");
+
+    if(winners.length!==8){
+        alert("Pilih semua pemenang 16 Besar dulu!");
+        return;
+    }
+
+    currentTeams=winners;
+
+    document.getElementById("fase8").classList.remove("hidden");
+
+    buatBabak(currentTeams,"matches8");
+}
+
+function keSemifinal(){
+
+    let winners=ambilPemenang("matches8");
+
+    if(winners.length!==4){
+        alert("Pilih semua pemenang 8 Besar dulu!");
+        return;
+    }
+
+    currentTeams=winners;
+
+    document.getElementById("fase4").classList.remove("hidden");
+
+    buatBabak(currentTeams,"matches4");
+}
+
+function keFinal(){
+
+    let winners=ambilPemenang("matches4");
+
+    if(winners.length!==2){
+        alert("Pilih kedua pemenang semifinal dulu!");
+        return;
+    }
+
+    let semifinalTeams=currentTeams;
+
+    let losers=[];
+
+    document.querySelectorAll("#matches4 .match")
+    .forEach((m,i)=>{
+
+        let all=semifinalTeams.slice(i*2,i*2+2);
+
+        if(m.dataset.winner){
+            losers.push(all.find(x=>x!==m.dataset.winner));
+        }
+
+    });
+
+    if(losers.length!==2){
+        alert("Pemenang semifinal belum lengkap!");
+        return;
+    }
+
+    document.getElementById("fase3")
+    .classList.remove("hidden");
+
+    document.getElementById("thirdPlace").innerHTML=`
+
+        <div class="match">
+
+            <h3>🥉 Perebutan Juara 3</h3>
+
+            <div class="score">${losers[0]}</div>
+            <div class="score">${losers[1]}</div>
+
+            <button class="btn-green"
+            onclick="pilihJuara3(this,'${losers[0]}')">
+            ${losers[0]} menang
+            </button>
+
+            <button class="btn-green"
+            onclick="pilihJuara3(this,'${losers[1]}')">
+            ${losers[1]} menang
+            </button>
+
+        </div>
+    `;
+
+    document.getElementById("final")
+    .classList.remove("hidden");
+
+    document.getElementById("finalMatch").innerHTML=`
+
+        <div class="match">
+
+            <h3>🏆 FINAL</h3>
+
+            <div class="score">${winners[0]}</div>
+            <div class="score">${winners[1]}</div>
+
+            <button class="btn-green"
+            onclick="juara('${winners[0]}')">
+            ${winners[0]} menang
+            </button>
+
+            <button class="btn-green"
+            onclick="juara('${winners[1]}')">
+            ${winners[1]} menang
+            </button>
+
+        </div>
+    `;
+}
+
+function pilihJuara3(btn,team){
+
+    btn.parentElement
+    .querySelectorAll("button")
+    .forEach(b=>b.disabled=true);
+
+    btn.classList.add("win");
+
+    alert("🥉 Juara 3: "+team);
+}
+
+function juara(team){
+
+    document.getElementById("winner").innerText=team;
+
+    alert(
+        "🏆 SELAMAT!\n\n"+
+        team+
+        " menjadi JUARA PILDUN!"
+    );
+}
+
+function resetGame(){
+
+    location.reload();
+
+}
+
+acakNegara();
+
+</script>
+
+</body>
+</html>
